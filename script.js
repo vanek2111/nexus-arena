@@ -20,7 +20,7 @@ document.querySelectorAll('.faq-question').forEach(question => {
 // ========== ФОРМА БРОНИРОВАНИЯ + n8n ==========
 const bookingForm = document.getElementById('booking-form');
 
-// 👇 URL ТВОЕГО WEBHOOK В n8n
+// 👇 PRODUCTION URL ИЗ n8n (vsellm — с двумя L!)
 const N8N_WEBHOOK_URL = 'https://n8n.vsellm.info/webhook/752e8e0d-5933-4364-a9be-26f4572fde58';
 
 if (bookingForm) {
@@ -31,15 +31,8 @@ if (bookingForm) {
         const phone = document.getElementById('phone').value.trim();
         const zone = document.getElementById('zone').value;
 
-        if (name.length < 2) {
-            alert('Введите имя');
-            return;
-        }
-
-        if (phone.length < 10) {
-            alert('Введите корректный телефон');
-            return;
-        }
+        if (name.length < 2) { alert('Введите имя'); return; }
+        if (phone.length < 10) { alert('Введите корректный телефон'); return; }
 
         const submitBtn = bookingForm.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
@@ -62,7 +55,6 @@ if (bookingForm) {
 
             alert(`Спасибо, ${name}! Мы перезвоним в течение 5 минут.`);
             bookingForm.reset();
-
         } catch (error) {
             console.error('Ошибка:', error);
             alert('Не удалось отправить заявку. Попробуйте ещё раз.');
@@ -78,7 +70,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
         const targetId = link.getAttribute('href');
         if (targetId === '#') return;
-
         const target = document.querySelector(targetId);
         if (target) {
             e.preventDefault();
@@ -96,7 +87,6 @@ if (burger && mobileMenu) {
         burger.classList.toggle('active');
         mobileMenu.classList.toggle('open');
     });
-
     mobileMenu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             burger.classList.remove('active');
@@ -105,11 +95,10 @@ if (burger && mobileMenu) {
     });
 }
 
-// ========== ТАЙМЕР ДО ТУРНИРА ==========
+// ========== ТАЙМЕР ==========
 function startTimer() {
     const timerEl = document.getElementById('timer');
     if (!timerEl) return;
-
     const targetDate = new Date('2026-10-15T12:00:00').getTime();
 
     function updateTimer() {
@@ -134,7 +123,6 @@ function startTimer() {
             blocks[3].textContent = String(seconds).padStart(2, '0');
         }
     }
-
     updateTimer();
     setInterval(updateTimer, 1000);
 }
@@ -152,7 +140,6 @@ function startCounters() {
                 const target = parseInt(el.dataset.target);
                 let current = 0;
                 const step = Math.ceil(target / 40);
-
                 const interval = setInterval(() => {
                     current += step;
                     if (current >= target) {
@@ -162,31 +149,25 @@ function startCounters() {
                         el.textContent = current;
                     }
                 }, 30);
-
                 observer.unobserve(el);
             }
         });
     }, { threshold: 0.5 });
-
     counters.forEach(counter => observer.observe(counter));
 }
 startCounters();
 
-// ========== ЖИВОЙ СЧЁТЧИК ОНЛАЙН-ГЕЙМЕРОВ ==========
+// ========== ЖИВОЙ СЧЁТЧИК ==========
 function startLiveCounter() {
     const counterEl = document.querySelector('.hero-card-stat .counter');
     if (!counterEl) return;
-
     function updateLiveCounter() {
-        const min = 42;
-        const max = 55;
+        const min = 42, max = 55;
         const newValue = Math.floor(Math.random() * (max - min + 1)) + min;
         counterEl.textContent = newValue;
-
         const nextUpdate = Math.floor(Math.random() * 60000) + 120000;
         setTimeout(updateLiveCounter, nextUpdate);
     }
-
     setTimeout(updateLiveCounter, 30000);
 }
 startLiveCounter();
@@ -199,15 +180,10 @@ window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const progress = (scrollTop / docHeight) * 100;
-
     if (progressBar) progressBar.style.width = progress + '%';
-
     if (scrollTopBtn) {
-        if (scrollTop > 500) {
-            scrollTopBtn.classList.add('visible');
-        } else {
-            scrollTopBtn.classList.remove('visible');
-        }
+        if (scrollTop > 500) scrollTopBtn.classList.add('visible');
+        else scrollTopBtn.classList.remove('visible');
     }
 });
 
@@ -217,7 +193,7 @@ if (scrollTopBtn) {
     });
 }
 
-// ========== ПЛАВНОЕ ПОЯВЛЕНИЕ (REVEAL) ==========
+// ========== REVEAL ==========
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -226,5 +202,4 @@ const revealObserver = new IntersectionObserver((entries) => {
         }
     });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
