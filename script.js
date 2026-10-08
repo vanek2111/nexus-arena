@@ -17,15 +17,19 @@ document.querySelectorAll('.faq-question').forEach(question => {
     });
 });
 
-// ========== ФОРМА БРОНИРОВАНИЯ ==========
+// ========== ФОРМА БРОНИРОВАНИЯ + n8n ==========
 const bookingForm = document.getElementById('booking-form');
 
+// 👇 URL ТВОЕГО WEBHOOK В n8n
+const N8N_WEBHOOK_URL = 'https://n8n.vselim.info/webhook/752e8e0d-5933-4364-a9be-26f4572fde58';
+
 if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
+    bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const name = document.getElementById('name').value.trim();
         const phone = document.getElementById('phone').value.trim();
+        const zone = document.getElementById('zone').value;
 
         if (name.length < 2) {
             alert('Введите имя');
@@ -37,8 +41,35 @@ if (bookingForm) {
             return;
         }
 
-        alert('Спасибо, ' + name + '! Мы перезвоним в течение 5 минут на номер ' + phone + '.');
-        bookingForm.reset();
+        const submitBtn = bookingForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправляем...';
+
+        try {
+            const response = await fetch(N8N_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    phone: phone,
+                    zone: zone,
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            if (!response.ok) throw new Error('Ошибка отправки');
+
+            alert(`Спасибо, ${name}! Мы перезвоним в течение 5 минут.`);
+            bookingForm.reset();
+
+        } catch (error) {
+            console.error('Ошибка:', error);
+            alert('Не удалось отправить заявку. Попробуйте ещё раз.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
     });
 }
 
@@ -141,6 +172,25 @@ function startCounters() {
 }
 startCounters();
 
+// ========== ЖИВОЙ СЧЁТЧИК ОНЛАЙН-ГЕЙМЕРОВ ==========
+function startLiveCounter() {
+    const counterEl = document.querySelector('.hero-card-stat .counter');
+    if (!counterEl) return;
+
+    function updateLiveCounter() {
+        const min = 42;
+        const max = 55;
+        const newValue = Math.floor(Math.random() * (max - min + 1)) + min;
+        counterEl.textContent = newValue;
+
+        const nextUpdate = Math.floor(Math.random() * 60000) + 120000;
+        setTimeout(updateLiveCounter, nextUpdate);
+    }
+
+    setTimeout(updateLiveCounter, 30000);
+}
+startLiveCounter();
+
 // ========== SCROLL PROGRESS + SCROLL TOP ==========
 const progressBar = document.getElementById('scroll-progress');
 const scrollTopBtn = document.getElementById('scroll-top');
@@ -178,33 +228,3 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-// ========== ЖИВОЙ СЧЁТЧИК ОНЛАЙН-ГЕЙМЕРОВ ==========
-function startLiveCounter() {
-    const counterEl = document.querySelector('.hero-card-stat .counter');
-    if (!counterEl) return;
-
-    // Начальное значение из data-target
-    let currentValue = parseInt(counterEl.dataset.target) || 47;
-    counterEl.textContent = currentValue;
-
-    // Функция для случайного изменения
-    function updateLiveCounter() {
-        // Случайное число от 42 до 55
-        const min = 42;
-        const max = 55;
-        const newValue = Math.floor(Math.random() * (max - min + 1)) + min;
-
-        // Плавно меняем текст
-        counterEl.textContent = newValue;
-        currentValue = newValue;
-
-        // Следующее обновление через 2-3 минуты (120-180 секунд)
-        const nextUpdate = Math.floor(Math.random() * 60000) + 120000;
-        setTimeout(updateLiveCounter, nextUpdate);
-    }
-
-    // Первое обновление через 30 секунд после загрузки
-    setTimeout(updateLiveCounter, 30000);
-}
-
-startLiveCounter();
