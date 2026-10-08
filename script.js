@@ -1,3 +1,27 @@
+// ========== TOAST (красивое уведомление) ==========
+function showToast(message, type = 'success') {
+    // Убираем старый тост, если есть
+    const oldToast = document.querySelector('.toast');
+    if (oldToast) oldToast.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast' + (type === 'error' ? ' toast-error' : '');
+
+    const icon = type === 'error'
+        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
+        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+
+    toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${message}</span>`;
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.add('toast-show'));
+
+    setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => toast.remove(), 400);
+    }, 3500);
+}
+
 // ========== FAQ АККОРДЕОН ==========
 document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', () => {
@@ -17,10 +41,47 @@ document.querySelectorAll('.faq-question').forEach(question => {
     });
 });
 
+// ========== МАСКА ТЕЛЕФОНА ==========
+const phoneInput = document.getElementById('phone');
+
+if (phoneInput) {
+    phoneInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // только цифры
+
+        // Если начинается с 8 — заменяем на 7
+        if (value.startsWith('8')) value = '7' + value.slice(1);
+        // Если не начинается с 7 — добавляем
+        if (!value.startsWith('7')) value = '7' + value;
+
+        // Ограничиваем 11 цифрами
+        value = value.slice(0, 11);
+
+        // Форматируем
+        let formatted = '+7';
+        if (value.length > 1) formatted += ' (' + value.slice(1, 4);
+        if (value.length >= 5) formatted += ') ' + value.slice(4, 7);
+        if (value.length >= 8) formatted += '-' + value.slice(7, 9);
+        if (value.length >= 10) formatted += '-' + value.slice(9, 11);
+
+        e.target.value = formatted;
+    });
+
+    // При фокусе — если пусто, ставим +7
+    phoneInput.addEventListener('focus', (e) => {
+        if (!e.target.value) e.target.value = '+7 (';
+    });
+
+    // При потере фокуса — если только +7, очищаем
+    phoneInput.addEventListener('blur', (e) => {
+        if (e.target.value === '+7 (' || e.target.value === '+7') {
+            e.target.value = '';
+        }
+    });
+}
+
 // ========== ФОРМА БРОНИРОВАНИЯ + n8n ==========
 const bookingForm = document.getElementById('booking-form');
 
-// 👇 PRODUCTION URL ИЗ n8n (vsellm — с двумя L!)
 const N8N_WEBHOOK_URL = 'https://n8n.vsellm.info/webhook/752e8e0d-5933-4364-a9be-26f4572fde58';
 
 if (bookingForm) {
@@ -31,8 +92,18 @@ if (bookingForm) {
         const phone = document.getElementById('phone').value.trim();
         const zone = document.getElementById('zone').value;
 
-        if (name.length < 2) { alert('Введите имя'); return; }
-        if (phone.length < 10) { alert('Введите корректный телефон'); return; }
+        // Валидация имени
+        if (name.length < 2) {
+            showToast('Введите имя', 'error');
+            return;
+        }
+
+        // Валидация телефона — ровно 11 цифр
+        const digitsOnly = phone.replace(/\D/g, '');
+        if (digitsOnly.length !== 11) {
+            showToast('Введите полный номер телефона', 'error');
+            return;
+        }
 
         const submitBtn = bookingForm.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
@@ -53,11 +124,12 @@ if (bookingForm) {
 
             if (!response.ok) throw new Error('Ошибка отправки');
 
-            alert(`Спасибо, ${name}! Мы перезвоним в течение 5 минут.`);
+            showToast(`Спасибо, ${name}! Мы перезвоним за 5 минут.`, 'success');
             bookingForm.reset();
+
         } catch (error) {
             console.error('Ошибка:', error);
-            alert('Не удалось отправить заявку. Попробуйте ещё раз.');
+            showToast('Не удалось отправить заявку. Попробуйте ещё раз.', 'error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
