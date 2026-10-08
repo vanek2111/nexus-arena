@@ -1,0 +1,694 @@
+/* ============ RESET ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ============ ПЕРЕМЕННЫЕ ============ */
+:root {
+    --bg: #050810;
+    --bg-soft: #0a0f1c;
+    --card: #0f1521;
+    --card-hover: #141b2c;
+    --text: #eaf2ff;
+    --text-muted: #7a8a9f;
+    --accent: #00e5ff;
+    --accent-2: #00b8cc;
+    --accent-glow: rgba(0, 229, 255, 0.15);
+    --border: rgba(0, 229, 255, 0.12);
+    --border-hover: rgba(0, 229, 255, 0.4);
+    --radius: 10px;
+}
+
+/* ============ ОСНОВА ============ */
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+h1, h2, h3, .logo-text, .tariff-price, .hero-stats strong {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+/* ============ КНОПКИ ============ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: all 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.btn-primary:hover {
+    background: var(--accent-2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent-glow);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+}
+
+/* ============ ШАПКА ============ */
+.header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(5, 8, 16, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    z-index: 100;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.logo-icon {
+    width: 32px; height: 32px;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 8px;
+    font-weight: 800;
+    font-family: 'Space Grotesk', sans-serif;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.logo-text em {
+    font-style: normal;
+    color: var(--accent);
+}
+
+.nav {
+    display: flex;
+    gap: 28px;
+}
+
+.nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav a:hover { color: var(--accent); }
+
+/* ============ HERO ============ */
+.hero {
+    position: relative;
+    padding: 180px 0 120px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0, 229, 255, 0.15), transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 100%, rgba(0, 184, 204, 0.1), transparent 70%);
+    pointer-events: none;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 30%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 30%, #000 30%, transparent 80%);
+    pointer-events: none;
+}
+
+.hero .container { position: relative; z-index: 2; }
+
+.hero-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--border-hover);
+    border-radius: 100px;
+    background: var(--accent-glow);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+}
+
+.hero h1 {
+    font-size: clamp(40px, 7vw, 88px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.hero h1 .grad {
+    background: linear-gradient(135deg, var(--accent), #7dd3fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 40px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 72px;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 72px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    padding-top: 40px;
+}
+
+.hero-stats > div { display: flex; flex-direction: column; gap: 4px; }
+
+.hero-stats strong {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.hero-stats span {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+/* ============ СЕКЦИИ ============ */
+section { padding: 96px 0; }
+
+.section-head {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.section-head h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.section-head p {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+/* ============ ТАРИФЫ ============ */
+.tariffs { background: var(--bg-soft); }
+
+.tariffs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.tariff-card {
+    position: relative;
+    padding: 32px 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.25s ease;
+}
+
+.tariff-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+}
+
+.tariff-card.featured {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px var(--accent-glow);
+}
+
+.tariff-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 12px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.tariff-name {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.tariff-price {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+}
+
+.tariff-price span {
+    font-size: 20px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.tariff-list {
+    list-style: none;
+    margin-bottom: 28px;
+}
+
+.tariff-list li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+}
+
+.tariff-list li::before {
+    content: '→ ';
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.tariff-list li:last-child { border-bottom: none; }
+
+.tariff-card .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* ============ ЗОНЫ ============ */
+.zones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.zone-card {
+    padding: 32px 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.25s ease;
+}
+
+.zone-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+    background: var(--card-hover);
+}
+
+.zone-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+
+.zone-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.zone-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ============ ТУРНИРЫ ============ */
+.tournaments { background: var(--bg-soft); }
+
+.tournaments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tournament-item {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.25s ease;
+}
+
+.tournament-item:hover {
+    border-color: var(--border-hover);
+    transform: translateX(4px);
+}
+
+.tournament-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border-hover);
+    border-radius: 8px;
+}
+
+.tournament-date strong {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+}
+
+.tournament-date span {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+}
+
+.tournament-info h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.tournament-info p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* ============ FAQ ============ */
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.25s;
+}
+
+.faq-item.active { border-color: var(--border-hover); }
+
+.faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: var(--accent);
+    font-weight: 300;
+    transition: transform 0.3s;
+}
+
+.faq-item.active .faq-question::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-question:hover { color: var(--accent); }
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-answer p {
+    padding: 0 24px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* ============ ФОРМА ============ */
+.booking { background: var(--bg-soft); }
+
+.booking-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding: 56px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 80% 20%, var(--accent-glow), transparent 40%);
+    pointer-events: none;
+}
+
+.booking-info, .booking-form { position: relative; z-index: 2; }
+
+.booking-info h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.booking-info > p {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    font-size: 15px;
+}
+
+.booking-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.booking-contacts div {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-group input,
+.form-group select {
+    padding: 14px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus { border-color: var(--accent); }
+
+.form-group input::placeholder { color: var(--text-muted); }
+
+.booking-form .btn { width: 100%; justify-content: center; }
+
+.form-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 4px;
+}
+
+/* ============ ФУТЕР ============ */
+.footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 48px 0 40px;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.footer-brand p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+.footer-copy {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ============ АДАПТИВ ============ */
+@media (max-width: 900px) {
+    .booking-box { grid-template-columns: 1fr; padding: 40px 28px; gap: 32px; }
+    .tournament-item { grid-template-columns: 80px 1fr; gap: 16px; }
+    .tournament-item .btn { grid-column: 1 / -1; justify-self: stretch; text-align: center; }
+}
+
+@media (max-width: 768px) {
+    .header { padding: 12px 0; }
+    .nav { display: none; }
+    .header .btn-primary { padding: 10px 18px; font-size: 12px; }
+    .logo-text { font-size: 16px; }
+
+    .hero { padding: 120px 0 60px; }
+    .hero h1 { font-size: 36px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn { justify-content: center; }
+    .hero-stats { gap: 32px; padding-top: 32px; }
+    .hero-stats strong { font-size: 26px; }
+
+    section { padding: 64px 0; }
+    .section-head { margin-bottom: 36px; }
+    .section-head h2 { font-size: 26px; }
+
+    .tariff-price { font-size: 32px; }
+    .zone-icon { font-size: 30px; }
+
+    .footer-inner { flex-direction: column; text-align: center; }
+}
