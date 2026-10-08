@@ -178,3 +178,33 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+// ========== ЖИВОЙ СЧЁТЧИК ОНЛАЙН-ГЕЙМЕРОВ ==========
+function startLiveCounter() {
+    const counterEl = document.querySelector('.hero-card-stat .counter');
+    if (!counterEl) return;
+
+    // Начальное значение из data-target
+    let currentValue = parseInt(counterEl.dataset.target) || 47;
+    counterEl.textContent = currentValue;
+
+    // Функция для случайного изменения
+    function updateLiveCounter() {
+        // Случайное число от 42 до 55
+        const min = 42;
+        const max = 55;
+        const newValue = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        // Плавно меняем текст
+        counterEl.textContent = newValue;
+        currentValue = newValue;
+
+        // Следующее обновление через 2-3 минуты (120-180 секунд)
+        const nextUpdate = Math.floor(Math.random() * 60000) + 120000;
+        setTimeout(updateLiveCounter, nextUpdate);
+    }
+
+    // Первое обновление через 30 секунд после загрузки
+    setTimeout(updateLiveCounter, 30000);
+}
+
+startLiveCounter();
