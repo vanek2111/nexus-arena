@@ -1,6 +1,5 @@
 // ========== TOAST (красивое уведомление) ==========
 function showToast(message, type = 'success') {
-    // Убираем старый тост, если есть
     const oldToast = document.querySelector('.toast');
     if (oldToast) oldToast.remove();
 
@@ -46,17 +45,11 @@ const phoneInput = document.getElementById('phone');
 
 if (phoneInput) {
     phoneInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // только цифры
-
-        // Если начинается с 8 — заменяем на 7
+        let value = e.target.value.replace(/\D/g, '');
         if (value.startsWith('8')) value = '7' + value.slice(1);
-        // Если не начинается с 7 — добавляем
         if (!value.startsWith('7')) value = '7' + value;
-
-        // Ограничиваем 11 цифрами
         value = value.slice(0, 11);
 
-        // Форматируем
         let formatted = '+7';
         if (value.length > 1) formatted += ' (' + value.slice(1, 4);
         if (value.length >= 5) formatted += ') ' + value.slice(4, 7);
@@ -66,12 +59,10 @@ if (phoneInput) {
         e.target.value = formatted;
     });
 
-    // При фокусе — если пусто, ставим +7
     phoneInput.addEventListener('focus', (e) => {
         if (!e.target.value) e.target.value = '+7 (';
     });
 
-    // При потере фокуса — если только +7, очищаем
     phoneInput.addEventListener('blur', (e) => {
         if (e.target.value === '+7 (' || e.target.value === '+7') {
             e.target.value = '';
@@ -81,7 +72,6 @@ if (phoneInput) {
 
 // ========== ФОРМА БРОНИРОВАНИЯ + n8n ==========
 const bookingForm = document.getElementById('booking-form');
-
 const N8N_WEBHOOK_URL = 'https://n8n.vsellm.info/webhook/752e8e0d-5933-4364-a9be-26f4572fde58';
 
 if (bookingForm) {
@@ -92,13 +82,11 @@ if (bookingForm) {
         const phone = document.getElementById('phone').value.trim();
         const zone = document.getElementById('zone').value;
 
-        // Валидация имени
         if (name.length < 2) {
             showToast('Введите имя', 'error');
             return;
         }
 
-        // Валидация телефона — ровно 11 цифр
         const digitsOnly = phone.replace(/\D/g, '');
         if (digitsOnly.length !== 11) {
             showToast('Введите полный номер телефона', 'error');
