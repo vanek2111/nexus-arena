@@ -1117,3 +1117,22 @@ section {
 
     .footer-inner { flex-direction: column; text-align: center; }
 }
+/* ============ ЗОНЫ — SVG ИКОНКИ ============ */
+.zone-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+    color: var(--accent);
+    background: rgba(255, 107, 53, 0.08);
+    border: 1px solid rgba(255, 107, 53, 0.2);
+    border-radius: 10px;
+    font-size: 0;
+}
+
+.zone-icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
