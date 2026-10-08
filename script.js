@@ -1,181 +1,1127 @@
-// ========== FAQ АККОРДЕОН ==========
-document.querySelectorAll('.faq-question').forEach(question => {
-    question.addEventListener('click', () => {
-        const item = question.parentElement;
-        const answer = item.querySelector('.faq-answer');
-        const isActive = item.classList.contains('active');
+/* ============================================
+   NEXUS ARENA — SPORT-TECH STYLE
+   Тёмно-синий + оранжевый + крупные цифры
+   ============================================ */
 
-        document.querySelectorAll('.faq-item').forEach(i => {
-            i.classList.remove('active');
-            i.querySelector('.faq-answer').style.maxHeight = null;
-        });
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-        if (!isActive) {
-            item.classList.add('active');
-            answer.style.maxHeight = answer.scrollHeight + 'px';
-        }
-    });
-});
-
-// ========== ФОРМА БРОНИРОВАНИЯ ==========
-const bookingForm = document.getElementById('booking-form');
-
-if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById('name').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-
-        if (name.length < 2) {
-            alert('Введите имя');
-            return;
-        }
-
-        if (phone.length < 10) {
-            alert('Введите корректный телефон');
-            return;
-        }
-
-        alert(`Спасибо, ${name}! Мы перезвоним в течение 5 минут на номер ${phone}.`);
-        bookingForm.reset();
-    });
+:root {
+    --bg: #0a0e1f;
+    --bg-soft: #0f1428;
+    --card: #141a30;
+    --card-hover: #1a2140;
+    --text: #f5f7ff;
+    --text-muted: #7a86a8;
+    --accent: #ff6b35;
+    --accent-2: #ff8c5a;
+    --accent-glow: rgba(255, 107, 53, 0.25);
+    --accent-glow-strong: rgba(255, 107, 53, 0.5);
+    --blue: #3b82f6;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-hover: rgba(255, 107, 53, 0.5);
+    --radius: 8px;
 }
 
-// ========== ПЛАВНЫЙ СКРОЛЛ ==========
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        const targetId = link.getAttribute('href');
-        if (targetId === '#') return;
+html { scroll-behavior: smooth; }
 
-        const target = document.querySelector(targetId);
-        if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
-});
-
-// ========== БУРГЕР-МЕНЮ ==========
-const burger = document.getElementById('burger');
-const mobileMenu = document.getElementById('mobile-menu');
-
-if (burger && mobileMenu) {
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('active');
-        mobileMenu.classList.toggle('open');
-    });
-
-    mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            burger.classList.remove('active');
-            mobileMenu.classList.remove('open');
-        });
-    });
+body {
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
-// ========== ТАЙМЕР ДО ТУРНИРА ==========
-function startTimer() {
-    const timerEl = document.getElementById('timer');
-    if (!timerEl) return;
-
-    // Ближайший турнир — 15 октября 2026, 12:00
-    const targetDate = new Date('2026-10-15T12:00:00').getTime();
-
-    function updateTimer() {
-        const now = new Date().getTime();
-        const diff = targetDate - now;
-
-        if (diff <= 0) {
-            timerEl.innerHTML = '<div class="timer-block"><strong>LIVE</strong><span>турнир идёт</span></div>';
-            return;
-        }
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        const blocks = timerEl.querySelectorAll('.timer-block strong');
-        if (blocks.length === 4) {
-            blocks[0].textContent = String(days).padStart(2, '0');
-            blocks[1].textContent = String(hours).padStart(2, '0');
-            blocks[2].textContent = String(minutes).padStart(2, '0');
-            blocks[3].textContent = String(seconds).padStart(2, '0');
-        }
-    }
-
-    updateTimer();
-    setInterval(updateTimer, 1000);
-}
-startTimer();
-
-// ========== АНИМИРОВАННЫЙ СЧЁТЧИК ==========
-function startCounters() {
-    const counters = document.querySelectorAll('.counter');
-    if (counters.length === 0) return;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const target = parseInt(el.dataset.target);
-                let current = 0;
-                const step = Math.ceil(target / 40);
-
-                const interval = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        el.textContent = target;
-                        clearInterval(interval);
-                    } else {
-                        el.textContent = current;
-                    }
-                }, 30);
-
-                observer.unobserve(el);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counters.forEach(counter => observer.observe(counter));
-}
-startCounters();
-
-// ========== SCROLL PROGRESS + SCROLL TOP + REVEAL ==========
-const progressBar = document.getElementById('scroll-progress');
-const scrollTopBtn = document.getElementById('scroll-top');
-
-window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / docHeight) * 100;
-
-    if (progressBar) progressBar.style.width = progress + '%';
-
-    if (scrollTopBtn) {
-        if (scrollTop > 500) {
-            scrollTopBtn.classList.add('visible');
-        } else {
-            scrollTopBtn.classList.remove('visible');
-        }
-    }
-});
-
-if (scrollTopBtn) {
-    scrollTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
 }
 
-// ========== ПЛАВНОЕ ПОЯВЛЕНИЕ (REVEAL) ==========
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.1 });
+h1, h2, h3, .logo-text, .tariff-price {
+    letter-spacing: -0.02em;
+}
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+/* ============ SCROLL PROGRESS ============ */
+.scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    z-index: 1000;
+    transition: width 0.1s;
+}
+
+/* ============ КНОПКИ ============ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 24px var(--accent-glow);
+}
+
+.btn-primary:hover {
+    background: var(--accent-2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent-glow-strong);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(255, 107, 53, 0.05);
+}
+
+/* ============ ШАПКА ============ */
+.header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10, 14, 31, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    z-index: 100;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.logo-mark {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border-radius: 8px;
+    color: #fff;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.logo-text em {
+    font-style: normal;
+    color: var(--accent);
+    margin-left: 2px;
+}
+
+.nav {
+    display: flex;
+    gap: 28px;
+}
+
+.nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav a:hover { color: var(--accent); }
+
+.header-cta { padding: 11px 20px; font-size: 13px; }
+
+.burger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+}
+
+.burger span {
+    display: block;
+    position: absolute;
+    left: 50%;
+    width: 18px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: all 0.3s ease;
+}
+
+.burger span:nth-child(1) { top: 13px; }
+.burger span:nth-child(2) { top: 19px; }
+.burger span:nth-child(3) { top: 25px; }
+
+.burger.active span:nth-child(1) { top: 19px; transform: translateX(-50%) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { top: 19px; transform: translateX(-50%) rotate(-45deg); }
+
+.mobile-menu {
+    position: fixed;
+    top: 73px; left: 0; right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 12px 24px 20px;
+    gap: 4px;
+    z-index: 99;
+    transform: translateY(-120%);
+    transition: transform 0.3s ease;
+}
+
+.mobile-menu.open { transform: translateY(0); }
+
+.mobile-menu a {
+    padding: 14px 0;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+}
+
+.mobile-menu a:last-child {
+    color: var(--accent);
+    border-bottom: none;
+}
+
+/* ============ HERO ============ */
+.hero {
+    position: relative;
+    padding: 160px 0 80px;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 50% 40% at 20% 30%, rgba(255, 107, 53, 0.12), transparent 70%),
+        radial-gradient(ellipse 40% 30% at 90% 60%, rgba(59, 130, 246, 0.1), transparent 70%);
+    pointer-events: none;
+}
+
+.hero .container { position: relative; z-index: 2; }
+
+.hero-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: rgba(255, 107, 53, 0.1);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 100px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero-title {
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.hero-accent {
+    color: var(--accent);
+}
+
+.hero-accent-2 {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Правая карточка */
+.hero-card {
+    padding: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 80% 20%, var(--accent-glow), transparent 40%);
+    pointer-events: none;
+}
+
+.hero-card > * { position: relative; z-index: 1; }
+
+.hero-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.hero-card-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+}
+
+.hero-card-live {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+.hero-card-stat {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.hero-card-stat strong {
+    display: block;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.hero-card-stat span {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    display: block;
+}
+
+.hero-card-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.hero-card-row > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hero-card-row strong {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+.hero-card-row span {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Статистика внизу */
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat strong {
+    display: block;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.stat span {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+/* ============ MARQUEE ============ */
+.marquee {
+    overflow: hidden;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 32px;
+    animation: scroll 30s linear infinite;
+    white-space: nowrap;
+}
+
+.marquee-track span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.marquee-track .dot-sep {
+    color: var(--accent);
+}
+
+@keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* ============ СЕКЦИИ ============ */
+section {
+    padding: 96px 0;
+    position: relative;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-head {
+    text-align: left;
+    margin-bottom: 56px;
+}
+
+.section-label {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.section-head h2 {
+    font-size: clamp(32px, 4.5vw, 52px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.section-desc {
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+/* ============ ТАРИФЫ ============ */
+.tariffs { background: var(--bg-soft); }
+
+.tariffs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.tariff-card {
+    position: relative;
+    padding: 32px 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.tariff-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+}
+
+.tariff-card.featured {
+    border-color: var(--accent);
+    box-shadow: 0 20px 60px var(--accent-glow);
+    transform: scale(1.02);
+}
+
+.tariff-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    padding: 4px 12px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.tariff-name {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.tariff-price {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.tariff-price span {
+    font-size: 22px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.tariff-list {
+    list-style: none;
+    margin-bottom: 28px;
+    flex: 1;
+}
+
+.tariff-list li {
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tariff-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.tariff-list li:last-child { border-bottom: none; }
+
+.tariff-card .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+}
+
+/* ============ ЗОНЫ ============ */
+.zones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.zone-card {
+    position: relative;
+    padding: 36px 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+.zone-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+    background: var(--card-hover);
+}
+
+.zone-num {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-size: 60px;
+    font-weight: 900;
+    color: rgba(255, 107, 53, 0.08);
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.zone-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.zone-card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+}
+
+.zone-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+/* ============ ТУРНИРЫ ============ */
+.tournaments { background: var(--bg-soft); }
+
+.tournament-timer {
+    max-width: 720px;
+    margin: 0 auto 56px;
+    padding: 32px;
+    background: var(--card);
+    border: 1px solid var(--border-hover);
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(255, 107, 53, 0.08);
+}
+
+.timer-label {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.timer-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 72px;
+}
+
+.timer-block strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.timer-block span {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+}
+
+.timer-sep {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    padding-bottom: 20px;
+}
+
+.tournaments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tournament-item {
+    display: grid;
+    grid-template-columns: 88px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.25s ease;
+}
+
+.tournament-item:hover {
+    border-color: var(--border-hover);
+    background: var(--card-hover);
+}
+
+.tournament-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 8px;
+    background: rgba(255, 107, 53, 0.1);
+    border: 1px solid var(--border-hover);
+    border-radius: 10px;
+}
+
+.tournament-date strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+}
+
+.tournament-date span {
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    font-weight: 700;
+}
+
+.tournament-info h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+}
+
+.tournament-info p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.tournament-info p strong {
+    color: var(--accent);
+    font-weight: 800;
+}
+
+.tournament-progress {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.progress-bar {
+    flex: 1;
+    max-width: 240px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 100px;
+    box-shadow: 0 0 12px var(--accent-glow-strong);
+}
+
+/* ============ FAQ ============ */
+.faq-list {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+}
+
+.faq-item.active { border-color: var(--border-hover); }
+
+.faq-question {
+    width: 100%;
+    padding: 22px 28px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: var(--accent);
+    font-weight: 300;
+    transition: transform 0.3s;
+}
+
+.faq-item.active .faq-question::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-question:hover { color: var(--accent); }
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-answer p {
+    padding: 0 28px 22px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* ============ БРОНИРОВАНИЕ ============ */
+.booking { background: var(--bg-soft); }
+
+.booking-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 80% 20%, var(--accent-glow), transparent 40%);
+    pointer-events: none;
+}
+
+.booking-info, .booking-form { position: relative; z-index: 2; }
+
+.booking-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.info-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.info-label {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-size: 16px;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.form-group input,
+.form-group select {
+    padding: 14px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.form-group input::placeholder { color: var(--text-muted); }
+
+.booking-form .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 16px;
+    margin-top: 8px;
+}
+
+.form-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 4px;
+}
+
+/* ============ ФУТЕР ============ */
+.footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 56px 0 40px;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.footer-brand p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+.footer-copy {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ============ SCROLL TOP ============ */
+.scroll-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 90;
+    box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.scroll-top:hover {
+    background: var(--accent-2);
+    transform: translateY(-3px);
+}
+
+/* ============ АДАПТИВ ============ */
+@media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .booking-box { grid-template-columns: 1fr; padding: 32px 24px; gap: 32px; }
+    .tournament-item { grid-template-columns: 72px 1fr; gap: 16px; }
+    .tournament-item .btn { grid-column: 1 / -1; justify-content: center; }
+    .timer-block strong { font-size: 32px; }
+    .timer-sep { font-size: 28px; }
+}
+
+@media (max-width: 768px) {
+    .header { padding: 12px 0; }
+    .nav { display: none; }
+    .header-cta { display: none; }
+    .burger { display: block; }
+    .mobile-menu { top: 65px; }
+
+    .hero { padding: 120px 0 60px; }
+    .hero-title { font-size: 38px; }
+    .hero-card-stat strong { font-size: 42px; }
+    .hero-card-row strong { font-size: 18px; }
+
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn { justify-content: center; }
+
+    section { padding: 64px 0; }
+    .section-head { margin-bottom: 36px; }
+    .section-head h2 { font-size: 28px; }
+
+    .tariff-price { font-size: 36px; }
+
+    .timer { gap: 6px; }
+    .timer-block { min-width: 56px; }
+    .timer-block strong { font-size: 24px; }
+    .timer-block span { font-size: 10px; }
+    .timer-sep { font-size: 20px; }
+
+    .footer-inner { flex-direction: column; text-align: center; }
+}
