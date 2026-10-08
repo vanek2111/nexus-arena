@@ -3,132 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Arena — кибер-клуб нового поколения</title>
+    <title>NEXUS_ARENA // кибер-клуб 24/7</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- ПРОГРЕСС СКРОЛЛА -->
+    <div class="scroll-progress" id="scroll-progress"></div>
 
     <!-- ШАПКА -->
     <header class="header">
         <div class="container">
             <a href="#" class="logo">
-                <span class="logo-icon">N</span>
-                <span class="logo-text">NEXUS<em>ARENA</em></span>
+                <span class="logo-prompt">$</span>
+                <span class="logo-text">NEXUS_ARENA<span class="cursor">▮</span></span>
             </a>
             <nav class="nav">
-                <a href="#tariffs">Тарифы</a>
-                <a href="#zones">Зоны</a>
-                <a href="#tournaments">Турниры</a>
-                <a href="#faq">FAQ</a>
-                <a href="#contacts">Контакты</a>
+                <a href="#tariffs">./tariffs</a>
+                <a href="#zones">./zones</a>
+                <a href="#tournaments">./tournaments</a>
+                <a href="#faq">./faq</a>
+                <a href="#contacts">./contacts</a>
             </nav>
-            <a href="#booking" class="btn btn-primary">Забронировать</a>
+            <button class="burger" id="burger" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a href="#booking" class="btn btn-primary header-cta">[ ЗАБРОНИРОВАТЬ ]</a>
         </div>
     </header>
+
+    <!-- МОБИЛЬНОЕ МЕНЮ -->
+    <nav class="mobile-menu" id="mobile-menu">
+        <a href="#tariffs">./tariffs</a>
+        <a href="#zones">./zones</a>
+        <a href="#tournaments">./tournaments</a>
+        <a href="#faq">./faq</a>
+        <a href="#contacts">./contacts</a>
+        <a href="#booking">[ ЗАБРОНИРОВАТЬ ]</a>
+    </nav>
 
     <!-- HERO -->
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="container">
-            <div class="hero-badge">● Открыто 24/7</div>
-            <h1>КИБЕР-КЛУБ<br><span class="grad">NEXUS ARENA</span></h1>
-            <p>RTX 4090 · 240Hz мониторы · Bootcamp-зона · Турниры каждый день</p>
-            <div class="hero-actions">
-                <a href="#booking" class="btn btn-primary">Забронировать место</a>
-                <a href="#tariffs" class="btn btn-ghost">Смотреть тарифы</a>
+            <div class="terminal-window">
+                <div class="terminal-bar">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="terminal-title">nexus_arena.sh</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="term-line"><span class="term-prompt">$</span> nexus-arena --status</div>
+                    <div class="term-line term-output">→ SYSTEM READY <span class="term-blink">▮</span></div>
+                    <div class="term-line term-output">→ Location: Moscow // 24/7</div>
+                    <div class="term-line term-output">→ PCs: 60 · PS5: 5 · Bootcamp: 1</div>
+                </div>
             </div>
+
+            <h1 class="hero-title">
+                КИБЕР-КЛУБ<br>
+                <span class="hero-accent">NEXUS_ARENA</span><span class="cursor-big">▮</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                RTX 4090 · 240Hz мониторы · Bootcamp-зона · Турниры каждый день
+            </p>
+
+            <div class="hero-actions">
+                <a href="#booking" class="btn btn-primary">[ ЗАБРОНИРОВАТЬ МЕСТО ]</a>
+                <a href="#tariffs" class="btn btn-ghost">[ СМОТРЕТЬ ТАРИФЫ ]</a>
+            </div>
+
             <div class="hero-stats">
-                <div><strong>60</strong><span>игровых ПК</span></div>
-                <div><strong>24/7</strong><span>работаем</span></div>
-                <div><strong>15</strong><span>турниров/мес</span></div>
+                <div class="stat">
+                    <strong>[ <span class="counter" data-target="60">0</span> ]</strong>
+                    <span>игровых ПК</span>
+                </div>
+                <div class="stat">
+                    <strong>[ 24/7 ]</strong>
+                    <span>работаем</span>
+                </div>
+                <div class="stat">
+                    <strong>[ <span class="counter" data-target="15">0</span> ]</strong>
+                    <span>турниров/мес</span>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ТАРИФЫ -->
-    <section id="tariffs" class="tariffs">
+    <section id="tariffs" class="tariffs reveal">
         <div class="container">
             <div class="section-head">
-                <h2>Тарифы</h2>
-                <p>Гибкие цены — от часа до безлимита</p>
+                <div class="section-num">// 01</div>
+                <h2>ТАРИФЫ</h2>
+                <p class="section-desc">Гибкие цены — от часа до безлимита</p>
             </div>
             <div class="tariffs-grid">
                 <div class="tariff-card">
-                    <div class="tariff-name">Час</div>
-                    <div class="tariff-price">250 <span>₽</span></div>
+                    <div class="tariff-header">
+                        <span class="tariff-name">// ЧАС</span>
+                    </div>
+                    <div class="tariff-price">250<span>₽</span></div>
                     <ul class="tariff-list">
                         <li>Standard-зона</li>
                         <li>RTX 3060 / 165Hz</li>
                         <li>Без предзаказа</li>
                     </ul>
-                    <a href="#booking" class="btn btn-ghost">Выбрать</a>
+                    <a href="#booking" class="btn btn-ghost">[ ВЫБРАТЬ ]</a>
                 </div>
                 <div class="tariff-card">
-                    <div class="tariff-name">3 часа</div>
-                    <div class="tariff-price">600 <span>₽</span></div>
+                    <div class="tariff-header">
+                        <span class="tariff-name">// 3 ЧАСА</span>
+                    </div>
+                    <div class="tariff-price">600<span>₽</span></div>
                     <ul class="tariff-list">
                         <li>Standard-зона</li>
                         <li>RTX 3060 / 165Hz</li>
                         <li>Кофе в подарок</li>
                     </ul>
-                    <a href="#booking" class="btn btn-ghost">Выбрать</a>
+                    <a href="#booking" class="btn btn-ghost">[ ВЫБРАТЬ ]</a>
                 </div>
                 <div class="tariff-card featured">
-                    <div class="tariff-badge">Популярное</div>
-                    <div class="tariff-name">День</div>
-                    <div class="tariff-price">1200 <span>₽</span></div>
+                    <div class="tariff-badge">>> ЛУЧШИЙ ВЫБОР</div>
+                    <div class="tariff-header">
+                        <span class="tariff-name">// ДЕНЬ</span>
+                    </div>
+                    <div class="tariff-price">1200<span>₽</span></div>
                     <ul class="tariff-list">
                         <li>Standard-зона</li>
                         <li>RTX 3060 / 165Hz</li>
                         <li>Кофе + снэк</li>
                         <li>С 10:00 до 22:00</li>
                     </ul>
-                    <a href="#booking" class="btn btn-primary">Выбрать</a>
+                    <a href="#booking" class="btn btn-primary">[ ВЫБРАТЬ ]</a>
                 </div>
                 <div class="tariff-card">
-                    <div class="tariff-name">Ночь</div>
-                    <div class="tariff-price">1500 <span>₽</span></div>
+                    <div class="tariff-header">
+                        <span class="tariff-name">// НОЧЬ</span>
+                    </div>
+                    <div class="tariff-price">1500<span>₽</span></div>
                     <ul class="tariff-list">
                         <li>Standard-зона</li>
                         <li>RTX 3060 / 165Hz</li>
                         <li>Энергетик в подарок</li>
                         <li>С 22:00 до 08:00</li>
                     </ul>
-                    <a href="#booking" class="btn btn-ghost">Выбрать</a>
+                    <a href="#booking" class="btn btn-ghost">[ ВЫБРАТЬ ]</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ЗОНЫ -->
-    <section id="zones" class="zones">
+    <section id="zones" class="zones reveal">
         <div class="container">
             <div class="section-head">
-                <h2>Зоны клуба</h2>
-                <p>От базовых ПК до bootcamp-комнат для команд</p>
+                <div class="section-num">// 02</div>
+                <h2>ЗОНЫ КЛУБА</h2>
+                <p class="section-desc">От базовых ПК до bootcamp-комнат для команд</p>
             </div>
             <div class="zones-grid">
                 <div class="zone-card">
-                    <div class="zone-icon">🎮</div>
-                    <h3>Standard</h3>
+                    <div class="zone-num">01</div>
+                    <div class="zone-icon">[g]</div>
+                    <h3>STANDARD</h3>
                     <p>40 ПК с RTX 3060, мониторы 165Hz, кресла DXRacer</p>
                 </div>
                 <div class="zone-card">
-                    <div class="zone-icon">⚡</div>
+                    <div class="zone-num">02</div>
+                    <div class="zone-icon">[⚡]</div>
                     <h3>VIP</h3>
                     <p>15 ПК с RTX 4080, мониторы 240Hz, отдельная зона</p>
                 </div>
                 <div class="zone-card">
-                    <div class="zone-icon">🏆</div>
-                    <h3>Bootcamp</h3>
+                    <div class="zone-num">03</div>
+                    <div class="zone-icon">[★]</div>
+                    <h3>BOOTCAMP</h3>
                     <p>Отдельная комната для команд: 5 ПК, whiteboard, доска</p>
                 </div>
                 <div class="zone-card">
-                    <div class="zone-icon">🎯</div>
-                    <h3>PS5 Zone</h3>
+                    <div class="zone-num">04</div>
+                    <div class="zone-icon">[P5]</div>
+                    <h3>PS5 ZONE</h3>
                     <p>5 приставок PS5 с 4K-телевизорами, диваны, FIFA/COD</p>
                 </div>
             </div>
@@ -136,12 +200,24 @@
     </section>
 
     <!-- ТУРНИРЫ -->
-    <section id="tournaments" class="tournaments">
+    <section id="tournaments" class="tournaments reveal">
         <div class="container">
             <div class="section-head">
-                <h2>Турниры</h2>
-                <p>Играй, побеждай, забирай призы</p>
+                <div class="section-num">// 03</div>
+                <h2>ТУРНИРЫ</h2>
+                <p class="section-desc">Играй, побеждай, забирай призы</p>
             </div>
+
+            <div class="tournament-timer">
+                <div class="timer-label">// ДО СЛЕДУЮЩЕГО ТУРНИРА:</div>
+                <div class="timer" id="timer">
+                    <div class="timer-block"><strong>00</strong><span>дней</span></div>
+                    <div class="timer-block"><strong>00</strong><span>часов</span></div>
+                    <div class="timer-block"><strong>00</strong><span>минут</span></div>
+                    <div class="timer-block"><strong>00</strong><span>секунд</span></div>
+                </div>
+            </div>
+
             <div class="tournaments-list">
                 <div class="tournament-item">
                     <div class="tournament-date">
@@ -150,9 +226,13 @@
                     </div>
                     <div class="tournament-info">
                         <h3>CS2 — 5v5</h3>
-                        <p>Призовой фонд 50 000 ₽ · Регистрация открыта</p>
+                        <p>Призовой фонд 50 000 ₽</p>
+                        <div class="tournament-progress">
+                            <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+                            <span>12/16 команд</span>
+                        </div>
                     </div>
-                    <a href="#booking" class="btn btn-ghost">Участвовать</a>
+                    <a href="#booking" class="btn btn-ghost">[ УЧАСТВОВАТЬ ]</a>
                 </div>
                 <div class="tournament-item">
                     <div class="tournament-date">
@@ -161,9 +241,13 @@
                     </div>
                     <div class="tournament-info">
                         <h3>Dota 2 — 5v5</h3>
-                        <p>Призовой фонд 30 000 ₽ · Осталось 4 слота</p>
+                        <p>Призовой фонд 30 000 ₽</p>
+                        <div class="tournament-progress">
+                            <div class="progress-bar"><div class="progress-fill" style="width: 50%"></div></div>
+                            <span>8/16 команд</span>
+                        </div>
                     </div>
-                    <a href="#booking" class="btn btn-ghost">Участвовать</a>
+                    <a href="#booking" class="btn btn-ghost">[ УЧАСТВОВАТЬ ]</a>
                 </div>
                 <div class="tournament-item">
                     <div class="tournament-date">
@@ -172,42 +256,47 @@
                     </div>
                     <div class="tournament-info">
                         <h3>Valorant — 5v5</h3>
-                        <p>Призовой фонд 25 000 ₽ · Регистрация открыта</p>
+                        <p>Призовой фонд 25 000 ₽</p>
+                        <div class="tournament-progress">
+                            <div class="progress-bar"><div class="progress-fill" style="width: 25%"></div></div>
+                            <span>4/16 команд</span>
+                        </div>
                     </div>
-                    <a href="#booking" class="btn btn-ghost">Участвовать</a>
+                    <a href="#booking" class="btn btn-ghost">[ УЧАСТВОВАТЬ ]</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="faq">
+    <section id="faq" class="faq reveal">
         <div class="container">
             <div class="section-head">
-                <h2>Частые вопросы</h2>
-                <p>Всё, что нужно знать перед визитом</p>
+                <div class="section-num">// 04</div>
+                <h2>FAQ</h2>
+                <p class="section-desc">Всё, что нужно знать перед визитом</p>
             </div>
             <div class="faq-list">
                 <div class="faq-item">
-                    <button class="faq-question">С какого возраста можно играть?</button>
+                    <button class="faq-question"><span class="faq-prompt">$</span> С какого возраста можно играть?</button>
                     <div class="faq-answer">
                         <p>С 14 лет в сопровождении взрослых, с 18 — самостоятельно. После 23:00 несовершеннолетним нужен взрослый.</p>
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question">Можно ли со своей периферией?</button>
+                    <button class="faq-question"><span class="faq-prompt">$</span> Можно ли со своей периферией?</button>
                     <div class="faq-answer">
                         <p>Да, можно подключить свою мышь, клавиатуру, наушники. Приносите в любое время.</p>
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question">Как забронировать место?</button>
+                    <button class="faq-question"><span class="faq-prompt">$</span> Как забронировать место?</button>
                     <div class="faq-answer">
                         <p>Через форму на сайте, в Telegram или по телефону. Бронь держим 15 минут.</p>
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question">Есть ли скидки?</button>
+                    <button class="faq-question"><span class="faq-prompt">$</span> Есть ли скидки?</button>
                     <div class="faq-answer">
                         <p>Да: студентам -15%, по будням до 16:00 -20%, командные брони от 5 человек -25%.</p>
                     </div>
@@ -216,30 +305,33 @@
         </div>
     </section>
 
-    <!-- ФОРМА БРОНИРОВАНИЯ -->
-    <section id="booking" class="booking">
+    <!-- БРОНИРОВАНИЕ -->
+    <section id="booking" class="booking reveal">
         <div class="container">
+            <div class="section-head">
+                <div class="section-num">// 05</div>
+                <h2>БРОНИРОВАНИЕ</h2>
+                <p class="section-desc">Оставь заявку — перезвоним за 5 минут</p>
+            </div>
             <div class="booking-box">
                 <div class="booking-info">
-                    <h2>Забронировать место</h2>
-                    <p>Оставь заявку — перезвоним за 5 минут, подтвердим бронь</p>
-                    <div class="booking-contacts">
-                        <div>📞 +7 (999) 123-45-67</div>
-                        <div>💬 @nexus_arena</div>
-                        <div>📍 Москва, ул. Кибернетиков, 15</div>
-                    </div>
+                    <div class="info-line"><span class="term-prompt">$</span> contact --list</div>
+                    <div class="info-line info-output">→ 📞 +7 (999) 123-45-67</div>
+                    <div class="info-line info-output">→ 💬 @nexus_arena</div>
+                    <div class="info-line info-output">→ 📍 Москва, ул. Кибернетиков, 15</div>
+                    <div class="info-line info-output">→ 🕐 Круглосуточно</div>
                 </div>
                 <form class="booking-form" id="booking-form">
                     <div class="form-group">
-                        <label for="name">Имя</label>
+                        <label for="name">// ИМЯ</label>
                         <input type="text" id="name" placeholder="Как к вам обращаться?" required>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Телефон</label>
+                        <label for="phone">// ТЕЛЕФОН</label>
                         <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
                     </div>
                     <div class="form-group">
-                        <label for="zone">Зона</label>
+                        <label for="zone">// ЗОНА</label>
                         <select id="zone">
                             <option>Standard</option>
                             <option>VIP</option>
@@ -247,34 +339,37 @@
                             <option>PS5</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Отправить заявку</button>
-                    <p class="form-note">Отправляя форму, вы соглашаетесь с обработкой данных</p>
+                    <button type="submit" class="btn btn-primary">[ ОТПРАВИТЬ ЗАЯВКУ ]</button>
+                    <p class="form-note">// Отправляя форму, вы соглашаетесь с обработкой данных</p>
                 </form>
             </div>
         </div>
     </section>
 
     <!-- ФУТЕР -->
-    <footer class="footer">
+    <footer class="footer" id="contacts">
         <div class="container">
             <div class="footer-inner">
                 <div class="footer-brand">
                     <div class="logo">
-                        <span class="logo-icon">N</span>
-                        <span class="logo-text">NEXUS<em>ARENA</em></span>
+                        <span class="logo-prompt">$</span>
+                        <span class="logo-text">NEXUS_ARENA<span class="cursor">▮</span></span>
                     </div>
                     <p>Кибер-клуб нового поколения. Открыто 24/7.</p>
                 </div>
                 <div class="footer-links">
-                    <a href="#tariffs">Тарифы</a>
-                    <a href="#zones">Зоны</a>
-                    <a href="#tournaments">Турниры</a>
-                    <a href="#contacts">Контакты</a>
+                    <a href="#tariffs">./tariffs</a>
+                    <a href="#zones">./zones</a>
+                    <a href="#tournaments">./tournaments</a>
+                    <a href="#contacts">./contacts</a>
                 </div>
-                <div class="footer-copy">© 2026 Nexus Arena</div>
+                <div class="footer-copy">© 2026 NEXUS_ARENA // all systems operational</div>
             </div>
         </div>
     </footer>
+
+    <!-- КНОПКА НАВЕРХ -->
+    <button class="scroll-top" id="scroll-top" aria-label="Наверх">↑</button>
 
     <script src="script.js"></script>
 </body>
