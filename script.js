@@ -21,7 +21,7 @@ document.querySelectorAll('.faq-question').forEach(question => {
 const bookingForm = document.getElementById('booking-form');
 
 // 👇 URL ТВОЕГО WEBHOOK В n8n
-const N8N_WEBHOOK_URL = 'https://n8n.vselim.info/webhook/752e8e0d-5933-4364-a9be-26f4572fde58';
+const N8N_WEBHOOK_URL = 'https://n8n.vsellm.info/webhook/752e8e0d-5933-4364-a9be-26f4572fde58';
 
 if (bookingForm) {
     bookingForm.addEventListener('submit', async (e) => {
